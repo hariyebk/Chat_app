@@ -6,6 +6,7 @@ import Button from "./Button"
 import AuthSocialButton from "./AuthSocialButton"
 import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios"
 
 type Variant = 'LOGIN' | 'REGISTER'
 
@@ -31,13 +32,16 @@ export default function AuthForm() {
         }
     })
 
-    function onSubmit(data: FieldValues){
+    async function onSubmit(data: FieldValues){
         setIsLoading(true)
         if(variant === "REGISTER"){
-            // TODO: Axios request for sign up
+            const user = await axios.post("/api/register", data)
+            console.log(user.data)
+            setIsLoading(false)
         }
         else{
             //TODO: NextAuth sign in
+
 
         }
 
@@ -56,7 +60,7 @@ export default function AuthForm() {
                         <Input id="name" label="Name" register={register} errors={errors} disabled = {isLoading} />
                     ) }
                     <Input id="email" label="Email address" register={register} errors={errors} disabled = {isLoading} />
-                    <Input id="password" label="Password" register={register} errors={errors} disabled = {isLoading} />
+                    <Input id="password" label="Password" type="password" register={register} errors={errors} disabled = {isLoading} />
                     <div>
                         <Button disabled = {isLoading} fullWidth type="submit">
                             {variant === "LOGIN" ? "Sign in" : "Register"}
