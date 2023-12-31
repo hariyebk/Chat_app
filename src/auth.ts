@@ -13,7 +13,7 @@ const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET as string
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string
 
-export const {handlers: {GET, POST}, auth, signIn, signOut} = NextAuth({
+export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(db),
     providers: [
         Github({
@@ -32,13 +32,16 @@ export const {handlers: {GET, POST}, auth, signIn, signOut} = NextAuth({
                 password: {label: "password", type: "text"}
             },
             async authorize(credentials){
-                if(!credentials?.email || !credentials.password) throw new Error("Invalid Credentials")
+                // If the user didn't provide the credentials.
+                if(!credentials?.email || !credentials.password) throw new Error("Missing info")
                 const user = await db.user.findUnique({
                     where: {
                         email: credentials.email
                     }
                 })
-                if(!user || !user.hashedPassword) throw new Error("No user found . please try again")
+                // If the user is not Registered
+                if(!user || !user.hashedPassword) throw new Error("User not found")
+                // check if the password is correct.
                 const isPasswordCorrect = await bcrypt.compare(credentials.password, user.hashedPassword)
                 if(!isPasswordCorrect) throw new Error("Inavlid Email or Password")
                 return user
@@ -59,4 +62,8 @@ export const {handlers: {GET, POST}, auth, signIn, signOut} = NextAuth({
         strategy: "jwt"
     },
     secret: process.env.AUTH_SECRET,
-})
+}
+
+const handlers = NextAuth(authOptions)
+
+export { handlers as GET, handlers as POST };

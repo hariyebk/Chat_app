@@ -10,28 +10,25 @@ export async function POST(request: Request){
     const {email, name, password} = body
     // check if the user provided all the credentials
     if(!email || !name || !password){
-        new NextResponse("Missing info", {
+        return new NextResponse("Missing info", {
             status: 400,
         })
     }
     // validate credentials
     const errors: string[] = []
     const validateCredentials = [
-        {
-            valid: validator.isLength(name, {
-                min: 1,
-                max: 10
-            }),
-            errorMessage: "Invalid name"
-        },
+        // {
+        //     valid: validator.isAlpha(name),
+        //     errorMessage: "Invalid name"
+        // },
         {
             valid: validator.isEmail(email),
             errorMessage: "Invalid Email"
         },
-        {
-            valid: validator.isStrongPassword(password),
-            errorMessage: "password is not strong enough"
-        }
+        // {
+        //     valid: validator.isStrongPassword(password),
+        //     errorMessage: "password is not strong enough"
+        // }
     ]
     // check if inputs are valid
     validateCredentials.forEach((check) => {
@@ -40,7 +37,7 @@ export async function POST(request: Request){
         }
     })
     if(errors.length > 0){
-        new NextResponse(errors[0], {
+        return new NextResponse(errors[0], {
             status: 400
         })
     }
