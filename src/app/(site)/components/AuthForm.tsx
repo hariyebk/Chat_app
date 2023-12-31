@@ -66,7 +66,7 @@ export default function AuthForm() {
                 console.log(result.error)
                 toast.error(result.error)
             }
-            else{
+            else if (!result?.error && result?.ok){
                 reset()
                 console.log(result)
                 toast.success("Logged in")
@@ -82,9 +82,27 @@ export default function AuthForm() {
         }
     }
 
-    function socialAction(action: string){
+    async function socialAction(action: string){
         setIsLoading(true)
-        // TODO:  NextAuth social sign in
+        try{
+            const result = await signIn(action, { redirect: false })
+            // If the social signin failed for some reason
+            if(result?.error){
+                console.log(result.error)
+                toast.error(result.error)
+            }
+            else if(!result?.error && result?.ok){
+                console.log(result)
+                toast.success("signed in")
+            }
+        }
+        catch(error: any){
+            console.log(error)
+            toast.error(error.response.data || "something went wrong")
+        }
+        finally{
+            setIsLoading(false)
+        }
     }
 
     return (
