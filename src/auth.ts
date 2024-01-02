@@ -43,7 +43,7 @@ export const authOptions: AuthOptions = {
                 if(!user || !user.hashedPassword) throw new Error("User not found")
                 // check if the password is correct.
                 const isPasswordCorrect = await bcrypt.compare(credentials.password, user.hashedPassword)
-                if(!isPasswordCorrect) throw new Error("Inavlid Email or Password")
+                if(!isPasswordCorrect) throw new Error("Incorrect Email or Password")
                 return user
             }
         })
@@ -66,4 +66,4 @@ export const authOptions: AuthOptions = {
 
 const handlers = NextAuth(authOptions)
 
-export { handlers as GET, handlers as POST };
+export { handlers as GET, handlers as POST};

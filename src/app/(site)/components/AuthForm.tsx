@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useForm, FieldValues, Form } from "react-hook-form"
+import { useForm, FieldValues} from "react-hook-form"
 import Input from "./inputs/Input"
 import Button from "./Button"
 import AuthSocialButton from "./AuthSocialButton"
@@ -9,7 +9,8 @@ import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios"
 import toast from "react-hot-toast"
-import { signIn } from "next-auth/react"
+import { signIn} from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 
 type Variant = 'LOGIN' | 'REGISTER'
@@ -17,6 +18,8 @@ type Variant = 'LOGIN' | 'REGISTER'
 export default function AuthForm() {
     const [variant, setVariant] = useState<Variant>("LOGIN")
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter()
+
     function toggleVariant(){
         reset()
         if(variant === "LOGIN"){
@@ -42,9 +45,12 @@ export default function AuthForm() {
         if(variant === "REGISTER"){
             try{
             const user = await axios.post("/api/register", data)
+            // Login the user Immeditly after they have registered.
+            await signIn("credentials", data)
             toast.success("Registration successfull")
-            reset()
-            console.log(user.data)
+            router.push("/users")
+            // reset()
+            // console.log(user.data)
             }
             catch(error: any){
                 console.log(error)
@@ -70,6 +76,7 @@ export default function AuthForm() {
                 reset()
                 console.log(result)
                 toast.success("Logged in")
+                router.push("/users")
             }
             }
             catch(error: any){
@@ -94,6 +101,7 @@ export default function AuthForm() {
             else if(!result?.error && result?.ok){
                 console.log(result)
                 toast.success("signed in")
+                router.push("/users")
             }
         }
         catch(error: any){
