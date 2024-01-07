@@ -8,7 +8,7 @@ import { useEffect } from "react"
 interface AuthProtectProps {
     children: React.ReactNode
 }
-export default function AuthProtect({children}: {children: React.ReactNode}) {
+export default function AuthProtect({children}: AuthProtectProps) {
     const session = useSession()
     const router = useRouter()
     async function checkAuthStatus(){
@@ -22,9 +22,11 @@ export default function AuthProtect({children}: {children: React.ReactNode}) {
     useEffect(() => {
         checkAuthStatus()
     })
-    return (
-        <div>
-            {children}
-        </div>
-    )
+    if(session.status !== sessionStatus.loading){
+        return (
+            <div className="h-full">
+                {children}
+            </div>
+        )
+    }
 }

@@ -62,22 +62,21 @@ export default function AuthForm() {
         }
         else{
             try{
-            // Nextauth signin
-            const result = await signIn("credentials", {
-                ...data,
-                redirect: false
-            })
-            // If the sign in failed
-            if(result?.error){
-                console.log(result.error)
-                toast.error(result.error)
-            }
-            else if (!result?.error && result?.ok){
-                reset()
-                console.log(result)
-                toast.success("Logged in")
-                router.push("/users")
-            }
+                // Nextauth signin
+                const result = await signIn("credentials", {
+                    ...data,
+                    redirect: false
+                })
+                // If the sign in failed
+                if(result?.error){
+                    console.log(result.error)
+                    toast.error(result.error)
+                }
+                else if (!result?.error && result?.ok){
+                    reset()
+                    toast.success("Logged in")
+                    router.push("/users")
+                }
             }
             catch(error: any){
                 console.log(error)

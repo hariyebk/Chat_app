@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
-import { db } from "@/libs/prismadb"
+import { db } from "@/lib/db"
+import { createUserSchema } from "@/lib/validation"
 import { NextResponse} from "next/server"
-import validator from 'validator'
 
 
 export async function POST(request: Request){
@@ -14,30 +14,14 @@ export async function POST(request: Request){
             status: 400,
         })
     }
-    // validate credentials
-    const errors: string[] = []
-    const validateCredentials = [
-        // {
-        //     valid: validator.isAlpha(name),
-        //     errorMessage: "Invalid name"
-        // },
-        {
-            valid: validator.isEmail(email),
-            errorMessage: "Invalid Email"
-        },
-        // {
-        //     valid: validator.isStrongPassword(password),
-        //     errorMessage: "password is not strong enough"
-        // }
-    ]
-    // check if inputs are valid
-    validateCredentials.forEach((check) => {
-        if(!check.valid){
-            errors.push(check.errorMessage)
-        }
+    // form validation
+    const results = createUserSchema.safeParse({
+        name,
+        email,
+        password
     })
-    if(errors.length > 0){
-        return new NextResponse(errors[0], {
+    if(!results.success){
+        return new NextResponse(results.error.message, {
             status: 400
         })
     }

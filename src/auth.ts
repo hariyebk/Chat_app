@@ -1,11 +1,11 @@
 import bcrypt  from "bcrypt"
 import NextAuth from "next-auth/next"
-import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials"
 import Github from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
+import { db } from "./lib/db"
+import { AuthOptions } from "next-auth"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { db } from "@/libs/prismadb"
 
 // O-AUTH Credentials
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID as string
@@ -66,4 +66,4 @@ export const authOptions: AuthOptions = {
 
 const handlers = NextAuth(authOptions)
 
-export { handlers as GET, handlers as POST};
+export { handlers as GET, handlers as POST, handlers as auth};
