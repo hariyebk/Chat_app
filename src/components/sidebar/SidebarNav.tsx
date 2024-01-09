@@ -4,10 +4,12 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { User } from "@prisma/client"
 import Image from "next/image"
+import Avatar from "../Avatar"
 interface SidebarProps {
     user: User | null
 }
 export default function SidebarNav({user}: SidebarProps) {
+    console.log(user)
     const pathname = usePathname()
     return (
         <section className="h-full flex flex-col items-center justify-between">
@@ -27,15 +29,7 @@ export default function SidebarNav({user}: SidebarProps) {
                     }
                 </ul>
             </nav>
-            <nav className="mt-4 pb-16 flex flex-col justify-between items-center">
-                <div onClick={() => {}} className="cursor-pointer hover:opacity-75 transition">
-                    <div className="relative inline-block rounded-full overflow-hidden p-6 md:h-11 md:w-11">
-                        <Image src={user?.image || "/images/placeholder.jpg"} alt="user-avatar" width={48} height={48} />
-                        {/* Green active ststaus */}
-                        <span className="absolute block rounded-full bg-green-500 ring-2 ring-white top-0 right-1 h-2 w-2 md:h-3 md:w-3" />
-                    </div>
-                </div>
-            </nav>
+            <Avatar user={user} />
         </section>
     )
 }

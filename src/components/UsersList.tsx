@@ -16,7 +16,7 @@ export default function UsersList({users}: UsersListProps) {
                 </div>
                 {users.map((user) => {
                     return (
-                        <UserItem key={user?.id} />
+                        <UserItem key={user?.id} user={user!} />
                     )
                 })}
             </div>
