@@ -11,7 +11,6 @@ interface UserItemProps {
 }
 
 export default function UserItem({user}: UserItemProps) {
-    console.log(user)
     const router = useRouter()
     const [isLoading, setIsLoading] = useState(false)
 
@@ -22,11 +21,11 @@ export default function UserItem({user}: UserItemProps) {
         const conversation = await axios.post("/api/conversations", {
             userId: user.id
         })
-        router.push(`/conversations/${conversation.data.id}`)
+        router.push(`/convs/${conversation.data.id}`)
         }
         catch(error: any){
-            console.log(error.message)
-            toast.error(error.message)
+            console.log(error.response.data || "something went wrong")
+            toast.error(error.response.data || "something went wrong")
         }
         finally{
             setIsLoading(false)
@@ -34,7 +33,7 @@ export default function UserItem({user}: UserItemProps) {
     }
 
     return (
-        <div className="w-full relative bg-white hover:bg-neutral-100 rounded-lg transition cursor-pointer" onClick={handleClick}>
+        <div className="w-full relative bg-white hover:bg-gray-100 rounded-lg transition cursor-pointer px-5" onClick={handleClick}>
             <div className="flex items-center justify-center space-x-3">
                 <Avatar user={user} />
                 <div className="min-w-0 flex-1">

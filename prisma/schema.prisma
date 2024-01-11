@@ -53,10 +53,10 @@ model Conversation {
   createdAt DateTime @default(now())
   lastMessageAt DateTime @default(now())
   name String?
-  isGroup Boolean
+  isGroup Boolean?
 
   messageIds String[]  @db.ObjectId
-  messages Message[]
+  messages Message[] 
 
   userIds String[]  @db.ObjectId
   users User[] @relation(fields: [userIds], references: [id])

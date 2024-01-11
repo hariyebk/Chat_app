@@ -3,13 +3,11 @@ import { routes } from "@/constants"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { User } from "@prisma/client"
-import Image from "next/image"
-import Avatar from "../Avatar"
+import Avatar from "../../app/users/components/Avatar"
 interface SidebarProps {
     user: User | null
 }
 export default function SidebarNav({user}: SidebarProps) {
-    console.log(user)
     const pathname = usePathname()
     return (
         <section className="h-full flex flex-col items-center justify-between">
