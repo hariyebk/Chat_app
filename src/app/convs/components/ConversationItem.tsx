@@ -1,6 +1,6 @@
 "use client"
 import { User, Conversation, Message } from "@prisma/client"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import {format} from "date-fns"
 import { useSession } from "next-auth/react"
 import { ConversationType } from "@/types"
@@ -30,20 +30,24 @@ export default function ConversationItem({conversation, selected}: ConversationI
     
     return (
         <div className={`mt-10 px-4 pt-9 w-full h-[74px] relative flex items-center space-x-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer ${selected ? "bg-neutral-100" : "bg-white"}`} onClick={handleClick}>
-            <Avatar user={otherUser!} />
-            <div className="w-full -mt-7 flex flex-col items-start">
-                <div className="flex flex-1 items-center justify-between focus:outline-none mb-14">
-                    {/* Name of the user or group name */}
-                    <p className="text-md text-gray-900"> {conversation.name || otherUser?.name} </p>
-                    {/* display the time where the last message was sent */}
-                    {lastMessage?.createdAt && (
-                        <p className="text-xs text-gray-400 font-sans font-light">
-                            {format(new Date(lastMessage.createdAt), "p")}
-                        </p>
-                    )}
+            <div className="flex items-center gap-3 -mt-6">
+                <div className="-mt-8">
+                    <Avatar user={otherUser!} />    
                 </div>
-                {/* display the last message and style depending on if the user has sawn it or not */}
-                <p className={`${!UserHasSeen && "font-semibold"} text-xs -mt-12`}> {lastMessageContent} </p>
+                <div className="w-full flex flex-col items-start">
+                    <div className="flex flex-1 items-center justify-between focus:outline-none mb-14">
+                        {/* Name of the user or group name */}
+                        <p className="text-md text-black font-semibold"> {conversation.name || otherUser?.name} </p>
+                        {/* display the time where the last message was sent */}
+                        {lastMessage?.createdAt && (
+                            <p className="text-xs text-gray-400 font-sans font-light">
+                                {format(new Date(lastMessage.createdAt), "p")}
+                            </p>
+                        )}
+                    </div>
+                    {/* display the last message and style depending on if the user has sawn it or not */}
+                    <p className={`${UserHasSeen ? "text-gray-500" : "text-black font-medium"} text-xs -mt-12`}> {lastMessageContent} </p>
+                </div>
             </div>
         </div>
     )

@@ -1,3 +1,4 @@
+import { getCurrentUser } from "@/actions/getCurrentUser";
 import { ConversationType } from "@/types";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
