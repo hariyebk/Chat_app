@@ -8,6 +8,7 @@ export async function getCurrentUser(){
         // if there is no current session return null
         return null
     }
+    // Find the current users data
     const user = await db.user.findUnique({
         where: {
             email: session.user.email

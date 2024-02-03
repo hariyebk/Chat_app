@@ -5,17 +5,17 @@ import { NextResponse } from "next/server"
 
 export async function POST(request: Request){
     try{
-        // get the current use
+        // get the current user
         const currentUser = await getCurrentUser()
         // there are two kinds of chats - private chats and group chats
         const {userId, isGroup, members, name} = await request.json()
-        // if there is no signed in user
+        // if there is no logged in user
         if(!currentUser?.id || !currentUser.email){
-            return new NextResponse("umauthorized", {
+            return new NextResponse("unauthorized", {
                 status: 401
             })
         }
-        // if there are no memebers of a group
+        // if there are no memebers of a group or there is no name provided for the group
         if(isGroup && (!members || members.length < 2 || !name)){
             return new NextResponse("Invalid data", {
                 status: 400
@@ -33,13 +33,14 @@ export async function POST(request: Request){
                             ...members.map((members: {value: string}) => {
                                 id: members.value
                             }),
+                            // Adding the current user to the list
                             {
                                 id: currentUser.id
                             }
                         ]
                     }
                 },
-                // populating the users array
+                // populating the users
                 include: {
                     users: true
                 }
@@ -49,8 +50,8 @@ export async function POST(request: Request){
         }
         // for private chats, first, find if the user has already talked with the selected user
         const existingChats = await db.conversation.findMany({
-            // query by two options. depending on who first created the chat
             where: {
+                // query by two options. depending on who first created the chat
                 OR: [
                     {
                         // userIds field is an array that contains the id's of the initiator and the user being talked to.
@@ -85,6 +86,7 @@ export async function POST(request: Request){
                     ]
                 }
             },
+            // populate the users
             include: {
                 users: true
             }

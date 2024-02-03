@@ -4,6 +4,7 @@ import { getSession } from "./getCurrentSession"
 
 export async function getUsers(){
     const session = await getSession()
+    // If the user is not logged in , return an empty array
     if(!session?.user?.email){
         return []
     }

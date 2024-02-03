@@ -8,7 +8,7 @@ export default async function UsersPageLayout({children}: LayoutProps) {
     return (
         <main className="h-full lg:pl-20">
             <Sidebar />
-            {children}
+                {children}
             <MobileFooter />
         </main>
     )

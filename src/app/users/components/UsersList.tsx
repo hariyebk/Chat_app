@@ -5,6 +5,7 @@ interface UsersListProps {
     users: User[] | null[]
 }
 
+// A list of all users in ourdatabase except the current logged in user
 export default function UsersList({users}: UsersListProps) {
     return (
         <aside className="fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 left-0 lg:w-80 w-full block overflow-y-auto border-r  border-gray-200 ">

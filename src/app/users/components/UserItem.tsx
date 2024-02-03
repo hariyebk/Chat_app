@@ -17,14 +17,15 @@ export default function UserItem({user}: UserItemProps) {
     async function handleClick(){
         setIsLoading(true)
         try{
-        // fetch all the associated conversations with the selected user.
-        const conversation = await axios.post("/api/conversations", {
-            userId: user.id
-        })
-        router.push(`/convs/${conversation.data.id}`)
+            // Create a new conversation with the clicked user or get the existing conversation .
+            const conversation = await axios.post("/api/conversations", {
+                userId: user.id
+            })
+            // redirect the user to that conversation.
+            router.push(`/convs/${conversation.data.id}`)
         }
         catch(error: any){
-            console.log(error.response.data || "something went wrong")
+            console.log(error.response.data)
             toast.error(error.response.data || "something went wrong")
         }
         finally{
@@ -33,17 +34,11 @@ export default function UserItem({user}: UserItemProps) {
     }
 
     return (
-        <div className="w-full relative bg-white hover:bg-gray-100 rounded-lg transition cursor-pointer px-5" onClick={handleClick}>
+        <div className="w-full h-[74px] relative bg-white hover:bg-gray-100 rounded-lg transition cursor-pointer px-5" onClick={handleClick}>
             <div className="flex items-center justify-center space-x-3">
                 <Avatar user={user} />
-                <div className="min-w-0 flex-1">
-                    <div className="focus:outline-none">
-                        <div className="flex items-center justify-between mb-1">
-                            <p className="text-sm font-medium text-gray-900 mb-14">
-                                {user.name}
-                            </p>
-                        </div>
-                    </div>
+                <div className="flex flex-1 items-center justify-between focus:outline-none mb-14">
+                    {user.name}
                 </div>
             </div>
         </div>

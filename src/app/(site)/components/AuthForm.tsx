@@ -44,14 +44,12 @@ export default function AuthForm() {
         setIsLoading(true)
         if(variant === "REGISTER"){
             try{
-            const user = await axios.post("/api/register", data)
-            // Login the user Immeditly after they have registered.
-            await signIn("credentials", data)
-            toast.success("Registration successfull")
-            router.push("/users")
-            // reset()
-            // console.log(user.data)
-            }
+                await axios.post("/api/register", data)
+                // Login the user Immeditly after they have registered.
+                await signIn("credentials", data)
+                toast.success("Registration successfull")
+                router.push("/users")
+                }
             catch(error: any){
                 console.log(error)
                 toast.error(error.response.data || "something went wrong")
@@ -62,7 +60,7 @@ export default function AuthForm() {
         }
         else{
             try{
-                // Nextauth signin
+                // Nextauth signin with email and password
                 const result = await signIn("credentials", {
                     ...data,
                     redirect: false
@@ -119,6 +117,7 @@ export default function AuthForm() {
                     {variant === "REGISTER" && (
                         <Input id="name" label="Name" register={register} errors={errors} disabled = {isLoading} />
                     ) }
+                    {/* Email and Password is common fot both Login and Resiter */}
                     <Input id="email" label="Email address" register={register} errors={errors} disabled = {isLoading} />
                     <Input id="password" label="Password" type="password" register={register} errors={errors} disabled = {isLoading} />
                     <div>
@@ -139,7 +138,7 @@ export default function AuthForm() {
                             </span>
                         </div>
                     </div>
-
+                    {/* Social loign buttons */}
                     <div className="mt-6 flex gap-2">
                         <AuthSocialButton icon={FaGithub} onClick={() => socialAction("github")} />
                         <AuthSocialButton icon={FcGoogle} onClick={() => socialAction("google")} />
