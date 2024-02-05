@@ -56,7 +56,7 @@ model Conversation {
   isGroup Boolean?
 
   messageIds String[]  @db.ObjectId
-  messages Message[] 
+  messages Message[]  
 
   userIds String[]  @db.ObjectId
   users User[] @relation(fields: [userIds], references: [id])
@@ -71,8 +71,8 @@ model Message {
   seenIds String[]  @db.ObjectId
   seen User[] @relation("Seen", fields: [seenIds], references: [id])
 
-  conversationIds String  @db.ObjectId
-  conversations Conversation @relation(fields: [conversationIds], references: [id])
+  conversationId String  @db.ObjectId
+  conversation Conversation @relation(fields: [conversationId], references: [id])
 
   senderId String @db.ObjectId
   sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)

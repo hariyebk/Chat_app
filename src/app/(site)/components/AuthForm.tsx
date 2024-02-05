@@ -68,12 +68,12 @@ export default function AuthForm() {
                 // If the sign in failed
                 if(result?.error){
                     console.log(result.error)
-                    toast.error(result.error)
+                    return toast.error(result.error)
                 }
                 else if (!result?.error && result?.ok){
                     reset()
                     toast.success("Logged in")
-                    router.push("/users")
+                    return router.push("/users")
                 }
             }
             catch(error: any){

@@ -6,6 +6,7 @@ import { ConversationType } from "@/types"
 import Link from "next/link"
 import { IoChevronBack } from "react-icons/io5";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { Conversation, User } from "@prisma/client";
 
 interface HeaderProps {
     conversation: ConversationType
@@ -21,8 +22,8 @@ export default function Header({conversation}: HeaderProps) {
         statusText = "Active"
     }
     return (
-        <header className="bg-white w-full flex border-b-[1px] sm:px-4 py-5 px-4 lg:px-6 justify-between items-center shadow-sm">
-            <div className="w-full flex gap-5 items-center justify-between px-6">
+        <header className="bg-white w-full flex border-b-[1px] sm:px-4 py-5 px-4 justify-between items-center shadow-sm">
+            <div className="w-full flex gap-5 items-center justify-between lg:px-6">
                 <Link href={'/convs'} className="lg:hidden block text-sky-500 hover:text-sky-600 transition cursor-pointer">
                     <IoChevronBack size = {32} />
                 </Link>
@@ -38,7 +39,7 @@ export default function Header({conversation}: HeaderProps) {
                         </p>
                     </div>
                 </div>
-                <button className="text-sky-500 cursor-pointer hover:text-sky-600 transition">
+                <button className="text-sky-500 cursor-pointer hover:text-sky-600 transition max-lg:mr-5">
                     <BiDotsHorizontalRounded size = {20} />
                 </button>
             </div>

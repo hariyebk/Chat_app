@@ -37,9 +37,9 @@ export default function UserItem({user}: UserItemProps) {
         <div className="w-full h-[74px] relative bg-white hover:bg-gray-100 rounded-lg transition cursor-pointer px-5" onClick={handleClick}>
             <div className="flex items-center justify-center space-x-3">
                 <Avatar user={user} />
-                <div className="flex flex-1 items-center justify-between focus:outline-none mb-14">
+                <p className="flex flex-1 items-center justify-between focus:outline-none font-semibold">
                     {user.name}
-                </div>
+                </p>
             </div>
         </div>
     )
